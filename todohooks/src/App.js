@@ -1,8 +1,10 @@
 import React from "react"
+import axios from "axios"
 
 function App() {
   // const [title, setTitle] = React.useState("")
   // const [description, setDescription] = React.useState("")
+  const [img, setImg] = React.useState("")
   const [todo, setTodo] = React.useState({
     title: "",
     description:""
@@ -14,6 +16,27 @@ function App() {
 
   // console.log("title", title)
   // console.log("description", description)
+
+
+  React.useEffect(()=>{
+    //componentDidMount & componentDidUpdate
+    async function getCat(){
+      try{
+        let {data} = await axios.get("https://aws.random.cat/meow")
+        setImg(data.file)
+      }catch(error){
+
+      }
+    }
+
+    getCat()
+  
+    return ()=>{
+      //unmount
+    }
+  //empty square bracket meant only run only
+  }, [])
+
 
   function submitHandler(){
     // let todo = {title, description, id: todos[todos.length -1].id+1}
@@ -30,6 +53,7 @@ function App() {
 
   return (
     <div>
+      <img src={img}/>
       <h1>Todo List</h1>
       <div>
         {/* <input name="title" onChange={e=>setTitle(e.target.value)}/> */}
