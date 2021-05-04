@@ -1,20 +1,25 @@
 import React from "react";
+import { Button } from "react-bootstrap";
 
 function Product({ addCart, product, cart }) {
   function addToCart() {
     // console.log(cart)
     // console.log(product)
-    if (!cart.includes(product)) {
+    // if (!cart.includes(product)) {
+    //   addCart((prevState) => [...prevState, product]);
+    // }
+    let tempCart = [...cart];
+    let index = cart.findIndex((el) => el.id === product.id);
+
+    if (index > -1) {
+      // increase quantity by 1
+      tempCart[index].quantity += 1;
+      addCart(tempCart);
+    } else {
+      //set quantity to 1
+      product.quantity = 1;
       addCart((prevState) => [...prevState, product]);
     }
-
-    // let tempProduct = {...product}
-    // let index = cart.findIndex((el) => el.id === product.id);
-    // if (index >-1){
-
-    // }else{
-
-    // }
   }
 
   function removeFromCart() {
@@ -31,8 +36,12 @@ function Product({ addCart, product, cart }) {
     <div>
       {product.name}
       <i>{product.price}</i>
-      <button onClick={addToCart}>Add To Cart</button>
-      <button onClick={removeFromCart}>Remove From Cart</button>
+      <Button onClick={addToCart} variant="primary">
+        Add To Cart
+      </Button>
+      <Button onClick={removeFromCart} variant="danger">
+        Remove From Cart
+      </Button>
     </div>
   );
 }
